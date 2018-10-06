@@ -1,0 +1,4 @@
+redis
+emoji
+requests
+requests_oauthlib

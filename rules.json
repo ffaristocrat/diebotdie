@@ -1,0 +1,49 @@
+{
+  "rules": {
+    "emoji_count": 5,
+    "screen_name_keywords": [
+      "❌",
+      "Deplorable "
+    ],
+    "profile_keywords": [
+      "#MAGA",
+      "#2A",
+      "#Trump2020",
+      "#buildthewall",
+      "#americafirst",
+      "#LiberalismIsAMentalDisorder",
+      "#biasedmedia",
+
+      "not a russian bot",
+      "followed by ",
+      "blocked by ",
+      "Follower of Jesus",
+      "Follower of Christ",
+      "Christ follower",
+      "Constitutional Originalist",
+      "pro trump",
+      "pro 2nd amendment",
+      "Right leaning Centrist",
+      "conservative/conservatarian",
+      "Actually conservative",
+
+      "#QAnon",
+      "#FollowTheWhiteRabbit",
+      "#QArmy",
+      "#pizzagate",
+      "#pedogate",
+      "#sethrich",
+
+      "Proud Boy",
+      "Pro-Free Speech",
+      "Pro Free Speech",
+      "gab.ai",
+      "#RedPill",
+
+      "#DemExit",
+      "#McCarthyism",
+      "#Tulsi2020",
+      "#WalkAway"
+    ]
+  }
+}
