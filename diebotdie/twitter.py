@@ -1,5 +1,6 @@
 import time
 import logging
+import os
 from typing import Dict
 
 import requests
@@ -15,10 +16,14 @@ class TwitterException(Exception):
 class APIClient:
     def __init__(self, consumer_key: str=None, consumer_secret: str=None,
                  access_token_key: str=None, access_token_secret: str=None):
-        self.consumer_key = consumer_key
-        self.consumer_secret = consumer_secret
-        self.access_token_key = access_token_key
-        self.access_token_secret = access_token_secret
+        self.consumer_key = consumer_key or \
+                            os.environ.get('TWITTER_CONSUMER_KEY')
+        self.consumer_secret = consumer_secret or \
+                               os.environ.get('TWITTER_CONSUMER_SECRET')
+        self.access_token_key = access_token_key or \
+                                os.environ.get('TWITTER_ACCESS_TOKEN_KEY')
+        self.access_token_secret = access_token_secret or \
+                                os.environ.get('TWITTER_ACCESS_TOKEN_SECRET')
 
         self.session = requests.session()
         self.rate_limits = {}
