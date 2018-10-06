@@ -34,7 +34,7 @@ class APIClient:
         self.fail_limit = 5
         self.retry_time = 10
 
-        self._refresh_access_token()
+        self.refresh_access_token()
     
     def update_rate_limits(self):
         data = self.get('/application/rate_limit_status')
@@ -44,7 +44,7 @@ class APIClient:
                 self.rate_limits[url] = limits['limit']
                 self.reset_time = max(self.reset_time, limits['reset'])
 
-    def _refresh_access_token(self):
+    def refresh_access_token(self):
         auth_list = [
             self.consumer_key, self.consumer_secret,
             self.access_token_key, self.access_token_secret]
@@ -92,7 +92,7 @@ class APIClient:
                     })
 
                 if status_code in [401, 403]:
-                    self._refresh_access_token()
+                    self.refresh_access_token()
                     continue
 
                 elif status_code in [429]:
