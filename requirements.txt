@@ -2,4 +2,3 @@ redis
 emoji
 requests
 requests_oauthlib
-boto3
