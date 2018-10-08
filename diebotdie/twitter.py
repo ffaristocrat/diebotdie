@@ -137,10 +137,21 @@ class APIClient:
     def get_pages(self, endpoint: str, params: Dict=None, body: Dict=None,
                   **kwargs):
         cursor = -1
+        max_id = 0
+        params.update({'cursor': cursor})
         while True:
-            params.update({'cursor': cursor})
             data = self.get(endpoint, params=params, body=body, **kwargs)
-            cursor = data['next_cursor']
+            
+            if not data:
+                break
+            
+            try:
+                cursor = data.get('next_cursor')
+                params.update({'cursor': cursor})
+            except AttributeError:
+                max_id = data[-1].get('id')
+                params.update({'max_id': max_id})
+
             yield data
 
             if cursor == 0:
