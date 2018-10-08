@@ -3,7 +3,6 @@ import logging
 import argparse
 import sys
 import time
-import pprint
 
 import redis
 
@@ -13,16 +12,9 @@ from diebotdie.twitter import APIClient
 
 
 LOG = logging.getLogger(__name__)
-pp = pprint.PrettyPrinter(indent=4)
 
 
-def main():
-    rules = UserRules(**json.load(open('rules.json'))['rules'])
-    twitter = APIClient(
-        **json.load(open('secrets.json')),
-    )
-    r = redis.StrictRedis(host='localhost', port=6379, db=0)
-
+def run_diebotdie(rules, twitter, r):
     blocker = Blocker(rules, twitter, r)
 
     topics = set()
@@ -35,7 +27,7 @@ def main():
             blocked_count = blocker.redis.scard('block')
             clean_count = blocker.redis.scard('clean')
             LOG.info(f'Blocked: {blocked_count}\t'
-                      f'Clean: {clean_count}\t')
+                     f'Clean: {clean_count}\t')
             topics |= blocker.collect_topics()
 
         topic = topics.pop()
@@ -44,6 +36,31 @@ def main():
 
         # Space out searches to stay within the rate limit
         time.sleep(60 * 15 / 180)
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '--rules', type=str, default='rules.json', help='Rules definition')
+    parser.add_argument(
+        '--port', type=int, default=6379, help='Redis port')
+    parser.add_argument(
+        '--host', type=str, default='localhost', help='Redis host')
+    parser.add_argument(
+        '--db', type=int, default=0, help='Redis database')
+
+    args = parser.parse_args()
+    
+    rules = UserRules(**json.load(open(args.rules, 'rt'))['rules'])
+    twitter = APIClient()
+    r = redis.StrictRedis(host=args.host, port=args.port, db=args.db)
+
+    try:
+        run_diebotdie(rules, twitter, r)
+    except BaseException:
+        print('Saving redis db')
+        r.save()
+        raise
 
 
 if __name__ == "__main__":
