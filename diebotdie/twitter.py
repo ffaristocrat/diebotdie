@@ -36,13 +36,13 @@ class APIClient:
 
         self.refresh_access_token()
         self.update_rate_limits()
-    
+
     def update_rate_limits(self):
         data = self.get('/application/rate_limit_status')
 
         for resource, endpoints in data['resources'].items():
             for url, limits in endpoints.items():
-                self.rate_limits[url] = limits['limit']
+                self.rate_limits[url.strip('/')] = int(limits['limit'])
                 self.reset_time = max(self.reset_time, limits['reset'])
 
     def refresh_access_token(self):

@@ -50,7 +50,7 @@ class Blocker:
             'user_id': user_id,
         }
         # just grab the first page
-        data = self.twitter.get('/followers/list', params=params)
+        data = self.twitter.get('followers/list', params=params)
 
         for user in data['users']:
             self.add_to_queue(user)
