@@ -35,6 +35,7 @@ class APIClient:
         self.retry_time = 10
 
         self.refresh_access_token()
+        self.update_rate_limits()
     
     def update_rate_limits(self):
         data = self.get('/application/rate_limit_status')
