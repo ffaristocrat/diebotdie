@@ -16,7 +16,7 @@ LOG = logging.getLogger(__name__)
 
 def run_diebotdie(rules, twitter, r):
     blocker = Blocker(rules, twitter, r)
-
+    rate_limit = twitter.rate_limits['search/tweets']
     topics = set()
 
     # Clear backlog first
@@ -35,7 +35,7 @@ def run_diebotdie(rules, twitter, r):
         blocker.process_users_queue()
 
         # Space out searches to stay within the rate limit
-        time.sleep(60 * 15 / 180)
+        time.sleep(60 * 15 / rate_limit)
 
 
 def main():
