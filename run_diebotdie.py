@@ -41,7 +41,7 @@ def run_diebotdie(rules, twitter, r):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '--rules', type=str, default='rules.json', help='Rules definition')
+        'rules', type=str, default='rules.json', help='Rules definition')
     parser.add_argument(
         '--port', type=int, default=6379, help='Redis port')
     parser.add_argument(
