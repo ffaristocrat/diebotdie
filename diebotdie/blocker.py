@@ -55,12 +55,13 @@ class Blocker:
         for user in data['users']:
             self.add_to_queue(user)
 
-    def get_friends(self) -> Set:
-        this_user = self.twitter.get('account/verify_credentials')
+    def get_friends(self, screen_name: str=None) -> Set:
+        screen_name = screen_name or self.twitter.get(
+            'account/verify_credentials')['screen_name']
 
         friends = set()
         params = {
-            'screen_name': this_user['screen_name']
+            'screen_name': screen_name
         }
 
         try:
