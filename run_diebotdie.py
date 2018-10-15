@@ -28,7 +28,9 @@ def run_diebotdie(rules, twitter, r):
             clean_count = blocker.redis.scard('clean')
             LOG.info(f'Blocked: {blocked_count}\t'
                      f'Clean: {clean_count}\t')
-            topics |= blocker.collect_topics()
+            topics |= blocker.get_hamilton_68_topics()
+            topics |= blocker.get_twitter_trends()
+            topics |= blocker.get_friends('diebotdie')
 
         topic = topics.pop()
         blocker.search_topic(topic)
